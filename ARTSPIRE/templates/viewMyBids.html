@@ -1,0 +1,53 @@
+{% extends 'master.html' %}
+{% block body %}
+
+    	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>My Bids</h1>
+					<nav class="d-flex align-items-center">
+						<a href="{% url 'index' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="#">My Bids</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+    {% include 'messages.html' %}
+    {% block content %}
+    {% endblock %}
+	<!-- End Banner Area -->
+    <!--================Blog Categorie Area =================-->
+        <section class="blog_categorie_area">
+            <div class="container">
+                <div class="row">
+                    {% for bid in bids %}
+                    <div class="col-lg-4">
+                        <div class="categories_post">
+                            <img src="{{ bid.artwork.aimg.url }}" alt="post">
+                            <div class="categories_details">
+                                <div class="categories_text">
+                                    <a href="{% url 'artworkDetail' id=bid.artwork.id %}">
+                                        <h5>{{ bid.bidAmount }}</h5>
+                                    </a>
+                                    <div class="border_line"></div>
+                                    <p>{{ bid.artwork.title }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:20px;margin-left:35px;">
+                            {% if bid.artwork.artworkStatus %}
+                                <a href="{% url 'editBid' id=bid.id %}" class="genric-btn primary">Edit</a>   
+                                <a href="{% url 'deleteBid' id=bid.id %}" class="genric-btn primary">Delete</a>   
+                            {% endif %}
+                            <a href="{% url 'generateAuctionResult' id=bid.artwork.id %}" class="genric-btn primary">Result</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!--================Blog Categorie Area =================-->
+    {% endblock %}

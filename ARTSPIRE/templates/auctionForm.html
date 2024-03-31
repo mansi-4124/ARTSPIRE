@@ -1,0 +1,57 @@
+{% extends 'master.html' %}
+{% block body %}
+    	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>Auction the Artwork</h1>
+					<nav class="d-flex align-items-center">
+						<a href="{% url 'indexSeller' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+
+        <!--================Login Box Area =================-->
+		<section class="login_box_area section_gap">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="login_box_img">
+							<img class="img-fluid" src="/static/img/auction-form.jpg" alt="">
+							<div class="hover">
+								<h4>Auction Artwork</h4>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="login_form_inner">
+							<h3>Aution Artwork</h3>
+							<form class="row login_form" action="{% url 'auctionArt' id=artwork.id %}" method="POST">
+								{% csrf_token %}
+                                <div class="col-md-12 form-group">
+                                    Start Date :
+                                    <input style="margin-left:20px;margin-bottom:20px;" type="date" id="sDate" name="sDate">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    End Date :
+                                    <input style="margin-left:20px;margin-bottom:20px;" type="date" id="eDate" name="eDate">
+                                </div>
+								<div class="col-md-12 form-group">
+									<input type="number" class="form-control" name="basePrice" placeholder="Base Price" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Base Price'">
+								</div>
+								<div class="col-md-12 form-group">
+									<button type="submit" value="submit" class="primary-btn">Auction</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	<!--================End Login Box Area =================-->
+    <br><br><br>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'master.html' %}
+{% block body %}
+		<!-- Start Banner Area -->
+		<section class="banner-area organic-breadcrumb">
+			<div class="container">
+				<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+					<div class="col-first">
+						<h1>Signup</h1>
+						<nav class="d-flex align-items-center">
+							<a href="{% url 'index' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+							<a href="{% url 'signup' %}">Signup</a>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End Banner Area -->
+		<!--================Signup Box Area =================-->
+		<section class="login_box_area section_gap">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="login_box_img">
+							<img class="img-fluid" src="/static/img/login.jpg" alt="">
+							<div class="hover">
+								<h4>Already have account?</h4>
+								<a class="primary-btn" href="{% url 'login_view' %}">Login</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="login_form_inner">
+							<h3>Signup</h3>
+							<form class="row login_form" action="{% url 'signup' %}" method="post" id="contactForm" novalidate="novalidate">
+								{% csrf_token %}
+								<div style="margin-left:20px;">
+									<p>Are you a seller?</p>
+									<input type="radio" id="sellerYes" name="user_type" value="Seller">
+									<label for="sellerYes">Yes</label>
+									<input type="radio" id="sellerNo" name="user_type" value="Buyer" style="margin-left: 10px;margin-bottom:30px;">
+									<label for="sellerNo">No</label>
+								</div>
+								<div class="col-md-12 form-group">
+									<input type="text" class="form-control" id="name" name="username" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								</div>
+								<div class="col-md-12 form-group">
+									<input type="password" class="form-control" id="name" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+								</div>
+								<div class="col-md-12 form-group">
+									<input type="password" class="form-control" id="name" name="password2" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
+								</div>
+								<div class="col-md-12 form-group">
+									<input type="text" class="form-control" id="name" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
+								</div>
+								<br>
+								<div class="col-md-12 form-group">
+									<button type="submit" value="signup" class="primary-btn">Signup</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--================End Signup Box Area =================-->
+{% endblock %}

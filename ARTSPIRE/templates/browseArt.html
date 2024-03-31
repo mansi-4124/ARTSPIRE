@@ -1,0 +1,70 @@
+{% extends 'master.html' %}
+{% block body %}
+    	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>Artworks</h1>
+					<nav class="d-flex align-items-center">
+						<a href="{% url 'index' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="#">Artworks</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+	{% include 'messages.html' %}
+    {% block content %}
+    {% endblock %}
+    <br><br><br>
+	<!-- start product Area -->
+		<!-- single product slide -->
+		<div class="single-product-slider">
+			<div class="container">
+				<div class="row">
+
+					<!-- single product -->
+                    {% for art in artwork %}
+					<div class="col-lg-3 col-md-6">
+						<div class="single-product">
+							<img class="img-fluid" src="{{ art.aimg.url }}" alt="">
+							<div class="product-details">
+								<h6>{{ art.title }}</h6>
+								<div class="price">
+									<h6>{{ art.category }}</h6>
+								</div>
+                                <div class="price">
+									<p>By {{ art.seller.user.username }}</p>
+								</div>
+                                <div class="price">
+                                    {% if art.artworkStatus %}
+									    <p style="color:green;">Available</p>
+                                    {% else %}
+                                        <p style="color:red;">Sold</p>
+                                    {% endif %}
+								</div>
+								<div class="prd-bottom">
+									<a href="{% url 'bidArt' id=art.id %}" class="social-info">
+										<span class="ti-bag"></span>
+										<p class="hover-text">Bid</p>
+									</a>
+									<a href="" class="social-info">
+										<span class="lnr lnr-heart"></span>
+										<p class="hover-text">Wishlist</p>
+									</a>
+									<a href="{% url 'artworkDetail' id=art.id %}" class="social-info">
+										<span class="lnr lnr-move"></span>
+										<p class="hover-text">View More</p>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+                    {% endfor %}
+				</div>
+			</div>
+		</div>
+	<!-- end product Area -->
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'masterSeller.html' %}
+{% block body %}
+    	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>My Artworks</h1>
+					<nav class="d-flex align-items-center">
+						<a href="{% url 'indexSeller' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="#">My Artworks</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+    <br><br><br>
+	<!-- start product Area -->
+		<!-- single product slide -->
+        <div class="single-product-slider">
+            <div class="container">
+                <div class="row">
+                    {% for art in artwork %}
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single-product">
+                            <img class="img-fluid" src="{{ art.aimg.url }}" alt="">
+                            <div class="product-details">
+                                <h6>{{ art.title }}</h6>
+                                <div class="price">
+                                    <h6>{{ art.category }}</h6>
+                                </div>
+                                <div class="price">
+                                    {% if art.artworkStatus %}
+                                        <p style="color:green;">Available</p>
+                                    {% else %}
+                                        <p style="color:red;">Sold</p>
+                                    {% endif %}
+                                </div>
+                                <div class="prd-bottom">
+                                    {% comment %} delete painting {% endcomment %}
+                                    <form action="#" method="post" class="d-line">
+                                        {% csrf_token %}
+                                    </form>
+                                    {% if art.artworkStatus %}
+                                    <a href="{% url 'editArtwork' id=art.id %}" class="social-info">
+                                        <span class="lnr lnr-pencil"></span>
+                                        <p class="hover-text">Edit</p>
+                                    </a>     
+                                    <a href="{% url 'deleteArtwork' id=art.id %}" class="social-info">
+                                        <span class="lnr lnr-cross-circle"></span>
+                                        <p class="hover-text">Delete</p>
+                                    </a> 
+                                    {% endif %}                        
+                                    <a href="{% url 'artworkDetailSeller' id=art.id %}" class="social-info">
+                                        <span class="lnr lnr-move"></span>
+                                        <p class="hover-text">View More</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+	<!-- end product Area -->
+{% endblock %}

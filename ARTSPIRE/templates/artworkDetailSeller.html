@@ -1,0 +1,151 @@
+{% extends 'masterSeller.html' %}
+{% block body %}
+    <!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>{{artworkDetail.title}}</h1>
+					<nav class="d-flex align-items-center">
+						<a href="{% url 'indexSeller' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="{% url 'viewAllArtSeller' %}">My Artworks</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+
+    	<!--================Single Product Area =================-->
+	<div class="product_image_area">
+		<div class="container">
+			<div class="row s_product_inner">
+				<div class="col-lg-6">
+                    <div class="single-prd-item" style="margin-left:100px;">
+                        <img class="img-fluid" src="{{ artworkDetail.aimg.url }}" alt="">
+                    </div>
+				</div>
+				<div class="col-lg-5 offset-lg-1">
+					<div class="s_product_text">
+						<h3>{{artworkDetail.title}}</h3>
+						<h2>₹{{auctionDetail.basePrice}}</h2>
+						<ul class="list">
+							<li><span>Category</span> : {{artworkDetail.category}}</a></li>
+							<li><span>Availibility</span> : {% if artworkDetail.artworkStatus %} Available
+							{% else %}
+								Sold
+							{% endif %}</li>
+						</ul>
+						<br>
+						<h6>Closing date : {{auctionDetail.endDate}}</h6>
+						<br><br>
+						{% if artworkDetail.artworkStatus == False %}
+						<h6>Winner : {{ auctionDetail.winner.user.username }}</h6>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--================End Single Product Area =================-->
+	<section class="product_description_area">
+		<div class="container">
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+					 aria-selected="false">Specification</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+					 aria-selected="false">Comments</a>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+					<p>{{artworkDetail.Description}}</p>
+				</div>
+				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+					<div class="table-responsive">
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>
+										<h5>Width</h5>
+									</td>
+									<td>
+										<h5>{{artworkDetail.width}}"</h5>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h5>Height</h5>
+									</td>
+									<td>
+										<h5>{{artworkDetail.height}}"</h5>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h5>Frame</h5>
+									</td>
+									<td>
+										<h5>{{artworkDetail.frame}}</h5>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h5>Condition</h5>
+									</td>
+									<td>
+										<h5>{{artworkDetail.condition}}</h5>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="comment_list">
+                                {% for comment in commentDetails %}
+                                <div class="review_item">
+                                    <div class="media">
+                                        <div class="d-flex">
+                                            <img src="img/product/review-1.png" alt="">
+                                        </div>
+                                        <div class="media-body">
+                                            <h4>{{comment.user.username}}</h4>
+                                            <h5>{{comment.datePosted}}</h5>
+                                        </div>
+                                    </div>
+                                    <p>{{comment.commentText}}</p>
+                                </div>
+                                {% endfor %}
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="review_box">
+								<h4>Post a comment</h4>
+								<form class="row contact_form" action="{% url 'artworkDetailSeller' id=artworkDetail.id %}" method="post">
+									{% csrf_token %}
+									<div class="col-md-12">
+										<div class="form-group">
+											<textarea class="form-control" name="message" placeholder="Message"></textarea>
+										</div>
+									</div>
+									<div class="col-md-12 text-right">
+										<button type="submit" value="submit" class="btn primary-btn">POST</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

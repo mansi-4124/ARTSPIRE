@@ -1,0 +1,72 @@
+{% extends 'masterSeller.html' %}
+{% block body %}
+		<!-- Start Banner Area -->
+		<section class="banner-area organic-breadcrumb">
+			<div class="container">
+				<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+					<div class="col-first">
+						<h1>Add Artwork</h1>
+						<nav class="d-flex align-items-center">
+							<a href="{% url 'indexSeller' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End Banner Area -->
+	
+		<!--================Login Box Area =================-->
+		<section class="login_box_area section_gap">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="login_box_img">
+							<img class="img-fluid" src="/static/img/addArtwork.jpg" alt="">
+							<div class="hover">
+								<h4>Add New Artwork</h4>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="login_form_inner">
+							<h3>Add Artwork</h3>
+							<form class="row login_form" action="{% url 'addArt' %}" method="POST" enctype="multipart/form-data">
+								{% csrf_token %}
+								<div class="col-md-12 form-group">
+									<input type="text" class="form-control" name="title" placeholder="Artwork Title" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Artwork Title'">
+								</div>
+                                    <input style="margin-left:20px;" type="file" id="artworkImage" name="artworkImage" accept="image/*" ><br><br>
+                                <div class="col-md-12 form-group">
+									<input type="text" class="form-control" name="description" placeholder="Artwork Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Artwork Description'">
+								</div>
+                                <div class="col-md-12 form-group">
+                                    <select name="category" required id="id_category">
+                                        {% for c in categories %}
+                                            <option value="{{c.name}}">{{c.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <input style="margin-left:20px;margin-bottom:20px;" type="date" id="cDate" name="cDate">
+                                <div class="col-md-12 form-group">
+									<input type="number" class="form-control" name="width" placeholder="Artwork Width(in inch)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Artwork Width(in inch)'">
+								</div>
+                                <div class="col-md-12 form-group">
+									<input type="number" class="form-control" name="height" placeholder="Artwork Height(in inch)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Artwork Height(in inch)'">
+								</div>
+                                <div class="col-md-12 form-group">
+									<input type="text" class="form-control" name="frame" placeholder="Artwork Frame(if any)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Artwork Frame(if any)'">
+								</div>
+                                <div class="col-md-12 form-group">
+									<input type="text" class="form-control" name="condition" placeholder="Artwork Condition" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Artwork Condition'">
+								</div>
+								<div class="col-md-12 form-group">
+									<button type="submit" value="submit" class="primary-btn">Auction</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--================End Login Box Area =================-->
+{% endblock %}

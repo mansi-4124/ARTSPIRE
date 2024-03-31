@@ -1,0 +1,97 @@
+{% extends 'master.html' %}
+{% block body %} 
+	<!-- start banner Area -->
+	<section class="banner-area" style="background: url(/static/img/banner/banner-bg.jpg) center no-repeat; background-size: cover; position:relative;">
+		<div class="container">
+			<div class="row fullscreen align-items-center justify-content-start">
+				<div class="col-lg-12">
+					<div class="active-banner-slider owl-carousel">
+						<!-- single-slide -->
+						<div class="row single-slide align-items-center d-flex">
+							<div class="col-lg-5 col-md-6">
+								<div class="banner-content">
+									<h1>Artistry Unleashed!</h1>
+									<p>Show. Sell, Succeed</p>
+								</div>
+							</div>
+							<div class="col-lg-7">
+								<div class="banner-img">
+									<img class="img-fluid" src="/static/img/banner/man painting.jpg" alt="">
+								</div>
+							</div>
+						</div>
+						<!-- single-slide -->
+						<div class="row single-slide">
+							<div class="col-lg-5">
+								<div class="banner-content">
+									<h2 style="font-family: 'Poppins', sans-serif;">Welcome to ARTSPIRE, <br>Where Art Comes Alive!</h2>
+									<p>
+										A vibrant online platform empowering budding artists to showcase their creativity and flourish in the digital realm. Our mission is to provide a nurturing space where artists of all backgrounds and styles can exhibit their work, connect with enthusiasts, and turn their passion into a sustainable income stream. With user-friendly tools, comprehensive support, and a thriving community, we're here to champion your artistic journey every step of the way. Join us today and empower small artists to emerge and thrive in the ever-evolving art landscape.</p>
+								</div>
+							</div>
+							<div class="col-lg-7">
+								<div class="banner-img">
+									<img class="img-fluid" src="/static/img/banner/street-online.jpg" alt="">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End banner Area -->
+	<br><br>
+		<!-- Start category Area -->
+		<section class="category-area" style="justify-content:center;">
+			<div class="banner-content">
+				<h2 style="text-align:center;">Categories</h2>
+			</div>
+			<br><br>
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-lg-8 col-md-12">
+						{% for cat in category %}
+						<div class="row"  style="display: inline-flex;">
+							<section class="gallery">
+							<div class="col-lg-8 col-md-8">
+								<div class="single-deal">
+									<div class="overlay"></div>
+									<img class="img-fluid w-100" src="{{ cat.image.url }}" alt="">
+									<a href="{% url 'browseArt' id=cat.id %}">
+										<div class="deal-details">
+											<h6 class="deal-title">{{cat.name}}</h6>
+										</div>
+									</a>
+								</div>
+							</div>
+							</section>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End category Area -->
+		<br><br>
+		<!-- Start exclusive deal Area -->
+		<section class="exclusive-deal-area">
+			<div class="container-fluid">
+				<div class="row justify-content-center align-items-center">
+					<div class="col-lg-6 no-padding exclusive-left">
+						<div class="row clock_sec clockdiv" id="clockdiv">
+							<div class="col-lg-12">
+								<h1>Highest Bid of all time!!!</h1>
+								<p>Where passion meets price, history is made with every bid.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 no-padding exclusive-right">
+							<img class="img-fluid" src="/static/img/product/e-p1.png" alt="">
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End exclusive deal Area -->
+		<br>
+{% endblock %}

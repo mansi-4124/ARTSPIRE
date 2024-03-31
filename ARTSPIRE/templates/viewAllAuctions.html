@@ -1,0 +1,74 @@
+{% extends 'masterSeller.html' %}
+{% block body %}
+    	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>My Auctions</h1>
+					<nav class="d-flex align-items-center">
+						<a href="{% url 'indexSeller' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="#">My Auctions</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+    <br><br><br>
+	<!-- start product Area -->
+		<!-- single product slide -->
+        <div class="single-product-slider">
+            <div class="container">
+                <div class="row">
+                    {% for auc in auctions %}
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single-product">
+                            <img class="img-fluid" src="{{ auc.artwork.aimg.url }}" alt="">
+                            <div class="product-details">
+                                <h6>{{ auc.artwork.title }}</h6>
+                                <div class="price">
+                                    <h6>{{ auc.artwork.category }}</h6>
+                                </div>
+                                <div class="price">
+                                    <h6><b>Starting Date : </b> {{ auc.startDate }}</h6>
+                                </div>
+                                <div class="price">
+                                    <h6><b>Ending Date : </b>{{ auc.endDate }}</h6>
+                                </div>
+                                <div class="price">
+                                    <h6><b>Base Price : </b>{{ auc.basePrice }}</h6>
+                                </div>
+                                <div class="price">
+                                    {% if auc.artwork.artworkStatus %}
+                                        <p style="color:green;">Available</p>
+                                    {% else %}
+                                        <p style="color:red;">Sold</p>
+                                    {% endif %}
+                                </div>
+                                <div class="prd-bottom">
+                                    {% comment %} delete painting {% endcomment %}
+                                    <form action="#" method="post" class="d-line">
+                                        {% csrf_token %}
+                                    </form>
+                                    {% if auc.auctionStatus %}
+                                    <a href="{% url 'editAuction' id=auc.id %}" class="social-info">
+                                        <span class="lnr lnr-pencil"></span>
+                                        <p class="hover-text">Edit</p>
+                                    </a> 
+                                    {% else %}
+                                    <a href="{% url 'generateAuctionResult' id=auc.artwork.id %}" class="social-info">
+                                        <span class="lnr lnr-gift"></span>
+                                        <p class="hover-text">Result</p>
+                                    </a> 
+                                    {% endif %}                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+	<!-- end product Area -->
+{% endblock %}
