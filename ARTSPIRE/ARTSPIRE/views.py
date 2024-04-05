@@ -1,22 +1,16 @@
-from datetime import datetime
-from django.http import JsonResponse
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from ARTSPIRE.forms import ArtworkForm, AuctionForm, BidForm
 from Artapp.models import Bid, Category, Artwork, Auction, User, Comment, Buyer, Seller
-from django.contrib import auth
-from django.conf import settings
 from django.core.mail import send_mail
 
 # Header and Footer pages
 def Master(request):
-    request.session['username']=request.session['username']
     return render(request, 'master.html')
 
 def MasterSeller(request):
-    request.session['username']=request.session['username']
     return render(request, 'masterSeller.html')
 # End Header and Footer
 
@@ -62,14 +56,13 @@ def Signup(request):
 def Logout(request):
     logout(request)
     request.session.flush()
+    messages.success(request, "Logged out successfully")
     return redirect('login_view')
 
 # End login and signup
 
 #Buyer pages
 def Index(request):
-    if 'username' in request.session:
-        request.session['username'] = request.session['username']
     category = Category.objects.all()
     context = {
         'category':category
@@ -78,7 +71,6 @@ def Index(request):
 
 def BrowseArt(request, id):
     if 'username' in request.session:
-        request.session['username'] = request.session['username']
         if id == 0:
             artwork = Artwork.objects.all()
             auction = Auction.objects.all()
@@ -96,7 +88,6 @@ def BrowseArt(request, id):
         return redirect('login_view')
 
 def ArtworkDetail(request, id):
-    request.session['username']=request.session['username']
     artworkDetail = get_object_or_404(Artwork, id=id)
     request.session['art']=artworkDetail.id
     auctionDetail = get_object_or_404(Auction, artwork=artworkDetail)
@@ -114,7 +105,6 @@ def BidArt(request, id):
     buyer = Buyer.objects.get(user=user)
     artwork = Artwork.objects.get(id=id)
     auction = get_object_or_404(Auction, artwork=artwork)
-    request.session['username']=un
     if request.method == 'POST':
         bidAmt=request.POST.get('bidamt')
         if auction.auctionStatus:
@@ -135,7 +125,6 @@ def ViewMyBids(request):
         un=request.session['username']
         user = User.objects.get(email=un)
         buyer = Buyer.objects.get(user=user)
-        request.session['username']=request.session['username']
         bids = Bid.objects.filter(buyer=buyer)
         return render(request, 'viewMyBids.html', {'bids': bids})
     else:
@@ -143,13 +132,11 @@ def ViewMyBids(request):
         return redirect('login_view')
 
 def DeleteBid(request,id):
-    request.session['username']=request.session['username']
     bid = get_object_or_404(Bid, id=id)
     bid.delete()
     return redirect('viewMyBids')
 
 def EditBid(request, id):
-    request.session['username']=request.session['username']
     bid = get_object_or_404(Bid, id=id)
     if request.method == 'POST':
         form = BidForm(request.POST, instance=bid)
@@ -162,7 +149,6 @@ def EditBid(request, id):
 
 def Search(request):
     if 'username' in request.session:
-        request.session['username']=request.session['username']
         if request.method == 'POST':
             search = request.POST.get('search_input')
             artworks = Artwork.objects.filter(title__icontains=search)
@@ -175,8 +161,7 @@ def Search(request):
                 return redirect('index')
             
             context = {
-                'artwork': artworks,
-                'search': search,
+                'artwork': artworks
             }
             return render(request, 'browseArt.html', context)
     else:
@@ -187,21 +172,10 @@ def Search(request):
 
 #Seller functionality
 def IndexSeller(request):
-    request.session['username']=request.session['username']
-    email = request.session.get('username')
-    user = None
-    if email:
-        try:
-            user = get_user_model().objects.get(email=email)
-        except get_user_model().DoesNotExist:
-            pass
-    
-    context = {'user': user}
-    return render(request, 'indexSeller.html', context)
+    return render(request, 'indexSeller.html')
 
 
 def AddArt(request):
-    request.session['username']=request.session['username']
     category = Category.objects.all()
     if request.method == "POST":
         artName=request.POST.get('title')
@@ -226,7 +200,6 @@ def AddArt(request):
 
 
 def AuctionArt(request, id):
-    request.session['username']=request.session['username']
     artwork=request.session['artsess']
     if request.method == 'POST':
         artwork = get_object_or_404(Artwork, id=id)
@@ -240,7 +213,6 @@ def AuctionArt(request, id):
         return render(request, 'auctionForm.html', {'artwork': artwork}) 
     
 def ViewAllArtSeller(request):
-    request.session['username']=request.session['username']
     un=request.session['username']
     user = User.objects.get(email=un)
     seller = Seller.objects.get(user=user)
@@ -248,9 +220,7 @@ def ViewAllArtSeller(request):
     return render(request, 'viewAllArtSeller.html', {'artwork': artworks})
 
 def ArtworkDetailSeller(request, id):
-    request.session['username']=request.session['username']
     artworkDetail = get_object_or_404(Artwork, id=id)
-    request.session['art']=artworkDetail.id
     auctionDetail = get_object_or_404(Auction, artwork=artworkDetail)
     if request.method == 'POST':
         comment_text = request.POST.get('message')
@@ -261,13 +231,11 @@ def ArtworkDetailSeller(request, id):
     return render(request, 'artworkDetailSeller.html', {'artworkDetail': artworkDetail, 'auctionDetail': auctionDetail, 'commentDetails': commentDetails})
 
 def DeleteArtwork(request,id):
-    request.session['username']=request.session['username']
     pi = get_object_or_404(Artwork, pk=id)
     pi.delete()
     return redirect('viewAllArtSeller')
 
 def EditArtwork(request, id):
-    request.session['username']=request.session['username']
     artwork = get_object_or_404(Artwork, id=id)
     if request.method == 'POST':
         form = ArtworkForm(request.POST, instance=artwork)
@@ -279,7 +247,6 @@ def EditArtwork(request, id):
     return render(request, 'editArtwork.html', {'form': form, 'artwork': artwork})
 
 def ViewAllAuctions(request):
-    request.session['username']=request.session['username']
     un=request.session['username']
     user = User.objects.get(email=un)
     seller = Seller.objects.get(user=user)
@@ -288,7 +255,6 @@ def ViewAllAuctions(request):
     return render(request, 'viewAllAuctions.html', {'auctions': auctions})
 
 def EditAuction(request, id):
-    request.session['username']=request.session['username']
     auction = get_object_or_404(Auction, id=id)
     if request.method == 'POST':
         form = AuctionForm(request.POST, instance=auction)
@@ -302,7 +268,6 @@ def EditAuction(request, id):
 
 def SearchSeller(request):
     if 'username' in request.session:
-        request.session['username']=request.session['username']
         if request.method == 'POST':
             search = request.POST.get('search_input')
             un=request.session['username']
@@ -323,7 +288,6 @@ def SearchSeller(request):
 
 # Auction functions
 def GenerateAuctionResult(request, id):
-    request.session['username']=request.session['username']
     un=request.session['username']
     user = User.objects.get(email=un)
     artwork = get_object_or_404(Artwork, id=id)
@@ -344,11 +308,10 @@ def GenerateAuctionResult(request, id):
         else:
             return render(request, 'auctionResult.html', {'auction': auction, 'artwork': artwork, 'user':user})
     else:
-        messages.warning(request, 'Auction end time has not passed yet.')
+        messages.warning(request, 'Auction has not closed yet.')
         return redirect('viewMyBids')
 
 def SendWinnerEmail(request, id) :
-    request.session['username']=request.session['username']
     if request.method == 'POST':
         name=request.POST.get("name")
         email=request.POST.get("email")
