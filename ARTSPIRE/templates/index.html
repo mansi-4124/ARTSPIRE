@@ -5,6 +5,9 @@
 		<div class="container">
 			<div class="row fullscreen align-items-center justify-content-start">
 				<div class="col-lg-12">
+					{% include 'messages.html' %}
+					{% block content %}
+					{% endblock %}
 					<div class="active-banner-slider owl-carousel">
 						<!-- single-slide -->
 						<div class="row single-slide align-items-center d-flex">
@@ -74,24 +77,5 @@
 		</section>
 		<!-- End category Area -->
 		<br><br>
-		<!-- Start exclusive deal Area -->
-		<section class="exclusive-deal-area">
-			<div class="container-fluid">
-				<div class="row justify-content-center align-items-center">
-					<div class="col-lg-6 no-padding exclusive-left">
-						<div class="row clock_sec clockdiv" id="clockdiv">
-							<div class="col-lg-12">
-								<h1>Highest Bid of all time!!!</h1>
-								<p>Where passion meets price, history is made with every bid.</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6 no-padding exclusive-right">
-							<img class="img-fluid" src="/static/img/product/e-p1.png" alt="">
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End exclusive deal Area -->
 		<br>
 {% endblock %}

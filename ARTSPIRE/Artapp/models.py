@@ -44,18 +44,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 
-class Admin(models.Model):
-    permissions = models.CharField(max_length=255)
-    activityTimeStamp = models.DateTimeField()
-    user = models.ManyToManyField(User)
-
 class Seller(models.Model):
     totalSales = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     successAuctions = models.IntegerField(default=0)
-    portfolio = models.BinaryField(null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
-        return self.user.username;
+        return self.user.username
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -64,7 +58,7 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name;
+        return self.name
 
 
 class Artwork(models.Model):
@@ -80,14 +74,14 @@ class Artwork(models.Model):
     frame = models.CharField(max_length=30, default='No')
     condition = models.CharField(max_length=50, default='Good')
     def __str__(self):
-        return self.title;
+        return self.title
 
 class Buyer(models.Model):
     favourites = models.ForeignKey(Artwork, on_delete=models.CASCADE, null=True)
     totalBids = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
-        return self.user.username;
+        return self.user.username
 
 class Auction(models.Model):
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
@@ -99,22 +93,14 @@ class Auction(models.Model):
     
 
 
-
-
 class Bid(models.Model):
     buyer = models.ForeignKey(Buyer, on_delete=models.CASCADE, related_name='bids_buyer')
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     bidAmount = models.DecimalField(max_digits=10, decimal_places=2)
 
-class Purchase(models.Model):
-    buyer = models.ForeignKey(Buyer, on_delete=models.CASCADE, related_name='purchase_history_buyer')
-    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
-    purchaseAmt = models.DecimalField(max_digits=10, decimal_places=2)
-    purchaseTime = models.DateTimeField()
 
 class Comment(models.Model):
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     commentText = models.TextField()
     datePosted = models.DateTimeField()
-    reply = models.TextField(null=True)
